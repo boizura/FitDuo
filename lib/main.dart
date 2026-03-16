@@ -14,7 +14,7 @@ class FitnessApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Homescreen(),
+      home:  HomeScreen(),
     );
   }   
 }
