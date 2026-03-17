@@ -38,10 +38,10 @@ class TabNavigation extends StatelessWidget {
       body: const TabBarView(
         children: [
           HomeTab(),
-          Center(child: Text("Quest Screen")),
-          Center(child: Text("Workouts Screen")),
-          Center(child: Text("History Screen")),
-          Center(child: Text("Settings Screen")),
+          Center(child: QuestScreen()),
+          Center(child: ExerciseLibraryScreen()),
+          Center(child: ProgressTrackerScreen()),
+          Center(child: SettingsScreens()),
         ],
       ),
     );
