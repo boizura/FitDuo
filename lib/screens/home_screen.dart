@@ -41,7 +41,7 @@ class TabNavigation extends StatelessWidget {
           Center(child: QuestScreen()),
           Center(child: ExerciseLibraryScreen()),
           Center(child: ProgressTrackerScreen()),
-          Center(child: SettingsScreens()),
+          Center(child: SettingsScreen()),
         ],
       ),
     );
