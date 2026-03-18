@@ -9,8 +9,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-
-
+bool isDarkMode = false;
+bool notificationsEnabled = true;
 String userName = "Maliyah Fleming";
 String fitnessGoal = "Build muscle";
 
@@ -34,9 +34,58 @@ String fitnessGoal = "Build muscle";
               trailing: IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () {
-
                 },
                 ),
+            ),
+            const Divider(height: 32),
+
+            // Dark Mode
+            const Text("Appearance", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SwitchListTile(
+              title: const Text("Dark Mode"), 
+              value: isDarkMode,
+              onChanged: (val) {
+                setState(() {
+                  isDarkMode = val;
+                  
+                });
+              },
+              secondary: const Icon(Icons.brightness_6),
+              ),
+              const Divider(height: 32),
+              // Notifications
+              const Text("Notifications", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SwitchListTile(
+                title: const Text("Enable Notifications"),
+                value: notificationsEnabled, 
+                onChanged: (val){
+                  setState(() {
+                    notificationsEnabled = val;
+                  });
+                },
+                secondary: const Icon(Icons.notifications),
+                ),
+            const Divider(height: 32),
+
+            // Data management
+            const Text("Data",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text("Reset Data"),
+              onTap: (){
+
+              },
+            ),
+
+            const Divider(height: 32),
+
+            // logout
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Log Out"),
+              onTap: () {
+                
+              },
             )
           ]
           
