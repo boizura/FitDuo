@@ -7,6 +7,8 @@ import 'package:fitduo/screens/settings_screens.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     return const DefaultTabController(
@@ -51,6 +53,11 @@ class TabNavigation extends StatelessWidget {
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
 
+final int currentProgress = 3;
+final int goal = 5;
+final String questName = "Upper Body Challenge";
+
+
   Widget buildButton(BuildContext context, String title, Widget screen) {
     return ElevatedButton(
       onPressed: () {
@@ -62,6 +69,61 @@ class HomeTab extends StatelessWidget {
       child: Text(title),
     );
   }
+
+Widget buildQuestOverview(BuildContext context) {
+  double progressPercent = currentProgress / goal;
+
+  return Card(
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Quest Progress ",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+
+          const SizedBox(height: 10),
+
+          Text(
+            questName,
+            style: const TextStyle(fontSize: 16),
+          ),
+
+          const SizedBox(height: 10),
+
+          Text("$currentProgress / $goal completed"),
+
+          const SizedBox(height: 10),
+
+          LinearProgressIndicator(
+            value: progressPercent,
+            minHeight: 8,
+          ),
+
+          const SizedBox(height: 10),
+
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                DefaultTabController.of(context).animateTo(1); 
+              },
+              child: const Text("View Quest →"),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +148,10 @@ class HomeTab extends StatelessWidget {
 
           const SizedBox(height: 20),
 
+          buildQuestOverview(context),
+
+          const SizedBox(height: 20),
+
           const Text(
             "Quick Actions",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -93,8 +159,10 @@ class HomeTab extends StatelessWidget {
 
           const SizedBox(height: 15),
 
-          buildButton(context, 'Workout Quest', const QuestScreen()),
+          buildButton(context, 'Add New Quest', const QuestScreen()),
           buildButton(context, 'Progress Tracker', const ProgressTrackerScreen()),
+
+          
 
         ],
       ),
