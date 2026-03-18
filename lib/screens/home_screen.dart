@@ -73,7 +73,7 @@ class HomeTab extends StatelessWidget {
         children: [
 
           const Text(
-            "🔥 Workout Streak",
+            "Workout Streak",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
 
