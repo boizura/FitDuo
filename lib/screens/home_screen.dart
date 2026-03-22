@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fitduo/screens/exercise_library_screen.dart';
+import 'package:fitduo/screens/quest_screen.dart';
+import 'package:fitduo/screens/progress_tracker_screen.dart';
+import 'package:fitduo/screens/setting_screen.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -65,7 +69,15 @@ class _HomescreenState extends State<Homescreen> {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 children: [
-                  _buildButton("📚 Exercises", Colors.blue, () {}),
+                  // Exercise Library
+                  _buildButton("📚 Exercises", Colors.blue, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ExerciseLibraryScreen(),
+                      ),
+                    );                   
+                  }),
                   _buildButton("🎯 Create Quest", Colors.green, () {}),
                   _buildButton("📈 Progress", Colors.orange, () {}),
                   _buildButton("🤖 AI Trainer", Colors.purple, () {}),
