@@ -23,14 +23,14 @@ class _HomescreenState extends State<Homescreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔥 Greeting
+            // Greeting
             const Text(
               "Welcome back!",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
 
-            // 🔥 Stats Card
+            // Stats Card
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -50,7 +50,7 @@ class _HomescreenState extends State<Homescreen> {
 
             const SizedBox(height: 20),
 
-            // 🔥 Section Title
+            // Section Title
             const Text(
               "Quick Actions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -58,7 +58,7 @@ class _HomescreenState extends State<Homescreen> {
 
             const SizedBox(height: 10),
 
-            // 🔥 Grid Buttons
+            // Grid Buttons
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -78,7 +78,7 @@ class _HomescreenState extends State<Homescreen> {
     );
   }
 
-  // 🔹 Reusable stat widget
+  // Reusable stat widget
   Widget _buildStat(String title, String value) {
     return Column(
       children: [
@@ -91,7 +91,7 @@ class _HomescreenState extends State<Homescreen> {
     );
   }
 
-  // 🔹 Reusable button widget
+  // Reusable button widget
   Widget _buildButton(String title, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
