@@ -14,6 +14,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
   String searchText = '';
   String selectedDifficulty = 'All';
   String selectedEquipment = 'All';
+  String selectedMuscle = 'All';
 
   final List<Map<String, String>> exercises = [
     {
@@ -48,7 +49,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
     },
   ];
 
-  // Filtering logic (search, difficulty and equipment)
+  // Filtering logic (search, difficulty, equipment and muscle group)
   List<Map<String, String>> get filteredExercises {
     return exercises.where((exercise) {
       final matchesSearch = exercise['name']!
@@ -61,7 +62,9 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       final matchesEquipment = selectedEquipment == 'All' ||
           exercise['equipment'] == selectedEquipment;
 
-      return matchesSearch && matchesDifficulty && matchesEquipment;
+      final matchesMuscle = selectedMuscle == 'All' ||
+          exercise['muscle'] == selectedMuscle;
+      return matchesSearch && matchesDifficulty && matchesEquipment && matchesMuscle;
     }).toList();
   }
 
@@ -172,6 +175,32 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                   ),
                 ),
               ],
+            ),
+
+            const SizedBox(height: 12),
+
+            // Muscle Group Filter
+            DropdownButtonFormField<String>(
+              value: selectedMuscle,
+              decoration: InputDecoration(
+                labelText: 'Muscle Group',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              items: const [
+                DropdownMenuItem(value: 'All', child: Text('All')),
+                DropdownMenuItem(value: 'Chest', child: Text('Chest')),
+                DropdownMenuItem(value: 'Legs', child: Text('Legs')),
+                DropdownMenuItem(value: 'Core', child: Text('Core')),
+                DropdownMenuItem(value: 'Arms', child: Text('Arms')),
+                DropdownMenuItem(value: 'Back', child: Text('Back')),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  selectedMuscle = value!;
+                });
+              },
             ),
 
             const SizedBox(height: 16),
