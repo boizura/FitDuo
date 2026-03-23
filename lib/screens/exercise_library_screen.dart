@@ -4,7 +4,8 @@ class ExerciseLibraryScreen extends StatefulWidget {
   const ExerciseLibraryScreen({super.key});
 
   @override
-  State<ExerciseLibraryScreen> createState() => _ExerciseLibraryScreenState();
+  State<ExerciseLibraryScreen> createState() =>
+      _ExerciseLibraryScreenState();
 }
 
 class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
@@ -12,6 +13,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
 
   String searchText = '';
   String selectedDifficulty = 'All';
+  String selectedEquipment = 'All';
 
   final List<Map<String, String>> exercises = [
     {
@@ -46,7 +48,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
     },
   ];
 
-  // Filtering logic (search and difficulty)
+  // Filtering logic (search, difficulty and equipment)
   List<Map<String, String>> get filteredExercises {
     return exercises.where((exercise) {
       final matchesSearch = exercise['name']!
@@ -56,7 +58,10 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       final matchesDifficulty = selectedDifficulty == 'All' ||
           exercise['difficulty'] == selectedDifficulty;
 
-      return matchesSearch && matchesDifficulty;            
+      final matchesEquipment = selectedEquipment == 'All' ||
+          exercise['equipment'] == selectedEquipment;
+
+      return matchesSearch && matchesDifficulty && matchesEquipment;
     }).toList();
   }
 
@@ -78,6 +83,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
         return Colors.grey;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +94,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          children: [            
+          children: [
             // Search Bar
             TextField(
               controller: _searchController,
@@ -108,29 +114,64 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
 
             const SizedBox(height: 12),
 
-            // Difficulty Filter
-            DropdownButtonFormField<String>(
-              value: selectedDifficulty,
-              decoration: InputDecoration(
-                labelText: 'Difficulty',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
+            // Difficulty and Equipment Filter Row
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedDifficulty,
+                    decoration: InputDecoration(
+                      labelText: 'Difficulty',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(value: 'All', child: Text('All')),
+                      DropdownMenuItem(
+                          value: 'Beginner', child: Text('Beginner')),
+                      DropdownMenuItem(
+                          value: 'Intermediate',
+                          child: Text('Intermediate')),
+                      DropdownMenuItem(
+                          value: 'Advanced', child: Text('Advanced')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDifficulty = value!;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              items: const [
-                DropdownMenuItem(value: 'All', child: Text('All')),
-                DropdownMenuItem(
-                    value: 'Beginner', child: Text('Beginner')),
-                DropdownMenuItem(
-                    value: 'Intermediate', child: Text('Intermediate')),
-                DropdownMenuItem(
-                    value: 'Advanced', child: Text('Advanced')),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedEquipment,
+                    decoration: InputDecoration(
+                      labelText: 'Equipment',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(value: 'All', child: Text('All')),
+                      DropdownMenuItem(
+                          value: 'Bodyweight', child: Text('Bodyweight')),
+                      DropdownMenuItem(
+                          value: 'Dumbbells', child: Text('Dumbbells')),
+                      DropdownMenuItem(
+                          value: 'Barbell', child: Text('Barbell')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        selectedEquipment = value!;
+                      });
+                    },
+                  ),
+                ),
               ],
-              onChanged: (value) {
-                setState(() {
-                  selectedDifficulty = value!;
-                });
-              },
             ),
 
             const SizedBox(height: 16),
@@ -173,41 +214,46 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                             subtitle: Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Column(
-                                crossAxisAlignment: 
+                                crossAxisAlignment:
                                     CrossAxisAlignment.start,
-                                children: [    
-                                Text('Muscle: ${exercise['muscle']}'),
-                                Text('Difficulty: ${exercise['difficulty']}'),
-                                const SizedBox(height: 6),
+                                children: [
+                                  Text('Muscle: ${exercise['muscle']}'),
+                                  Text(
+                                      'Equipment: ${exercise['equipment']}'),
 
-                                // Colored difficulty badge
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: _difficultyColor(
-                                            exercise['difficulty']!)
-                                        .withOpacity(0.2),
-                                    borderRadius:
-                                        BorderRadius.circular(20),
+                                  const SizedBox(height: 6),
+
+                                  // Colored difficulty badge
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: _difficultyColor(
+                                              exercise['difficulty']!)
+                                          .withOpacity(0.2),
+                                      borderRadius:
+                                          BorderRadius.circular(20),
                                     ),
                                     child: Text(
                                       exercise['difficulty']!,
                                       style: TextStyle(
                                         color: _difficultyColor(
                                             exercise['difficulty']!),
-                                        fontWeight: FontWeight.bold,                                
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),                            
-                            trailing: const Icon(Icons.arrow_forward_ios),
+                            ),
+                            trailing:
+                                const Icon(Icons.arrow_forward_ios),
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
                                 SnackBar(
-                                  content: Text('${exercise['name']} selected'),
+                                  content: Text(
+                                      '${exercise['name']} selected'),
                                 ),
                               );
                             },
