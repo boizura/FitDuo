@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fitduo/screens/exercise_detail_screen.dart';
 
 class ExerciseLibraryScreen extends StatefulWidget {
   const ExerciseLibraryScreen({super.key});
@@ -278,11 +279,15 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                             trailing:
                                 const Icon(Icons.arrow_forward_ios),
                             onTap: () {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      '${exercise['name']} selected'),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ExerciseDetailScreen(
+                                    name: exercise['name']!,
+                                    muscle: exercise['muscle']!,
+                                    difficulty: exercise['difficulty']!,
+                                    equipment: exercise['equipment']!,
+                                  ),
                                 ),
                               );
                             },
