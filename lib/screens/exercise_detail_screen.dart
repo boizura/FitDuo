@@ -14,7 +14,7 @@ class ExerciseDetailScreen extends StatelessWidget {
     required this.equipment,
   });
 
-  // Difficulty color
+  // Colors for difficulty levela
   Color _difficultyColor(String difficulty) {
     switch (difficulty) {
       case 'Beginner':
@@ -28,7 +28,6 @@ class ExerciseDetailScreen extends StatelessWidget {
     }
   }
 
-  // Muscle icon
   IconData _muscleIcon(String muscle) {
     switch (muscle) {
       case 'Chest':
@@ -58,7 +57,7 @@ class ExerciseDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header (icon + name)
+            // Exercise Header
             Row(
               children: [
                 CircleAvatar(
@@ -66,11 +65,13 @@ class ExerciseDetailScreen extends StatelessWidget {
                   child: Icon(_muscleIcon(muscle), size: 30),
                 ),
                 const SizedBox(width: 16),
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -80,24 +81,26 @@ class ExerciseDetailScreen extends StatelessWidget {
 
             // Info Card
             Card(
+              elevation: 3,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Muscle: $muscle',
-                        style: const TextStyle(fontSize: 18)),
+                    Text(
+                      'Muscle Group: $muscle',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
 
-                    const SizedBox(height: 8),
-
-                    Text('Equipment: $equipment',
-                        style: const TextStyle(fontSize: 18)),
-
-                    const SizedBox(height: 12),
+                    Text(
+                      'Equipment: $equipment',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
 
                     // Difficulty badge
                     Container(
@@ -113,10 +116,70 @@ class ExerciseDetailScreen extends StatelessWidget {
                         style: TextStyle(
                           color: _difficultyColor(difficulty),
                           fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Description
+            const Text(
+              'Description',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            const Text(
+              'This exercise helps improve strength and endurance. '
+              'Focus on maintaining proper form throughout the movement. ',
+              style: TextStyle(fontSize: 16),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Tips Section
+            const Text(
+              'Tips',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            const Text(
+              '• Keep your core engaged\n'
+              '• Maintain steady breathing\n',
+              style: TextStyle(fontSize: 16),
+            ),
+
+            const Spacer(),
+
+            // Start Workout Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$name workout started!'),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Start Workout',
+                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ),
