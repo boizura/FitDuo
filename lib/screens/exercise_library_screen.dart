@@ -282,12 +282,13 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          ExerciseDetailScreen(
+                                      builder: (context) => ExerciseDetailScreen(
                                         name: exercise.name,
                                         muscle: exercise.muscle,
                                         difficulty: exercise.difficulty,
                                         equipment: exercise.equipment,
+                                        instructions: exercise.instructions,
+                                        tips: exercise.tips,
                                       ),
                                     ),
                                   );
