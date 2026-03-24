@@ -39,7 +39,8 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
   // Filtering logic (search, difficulty, equipment and muscle group)
   List<Exercise> get filteredExercises {
     return exercises.where((exercise) {
-      final matchesSearch = exercise.name.toLowerCase().contains(searchText.toLowerCase());
+      final matchesSearch =
+          exercise.name.toLowerCase().contains(searchText.toLowerCase());
 
       final matchesDifficulty = selectedDifficulty == 'All' ||
           exercise.difficulty == selectedDifficulty;
@@ -47,8 +48,9 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       final matchesEquipment = selectedEquipment == 'All' ||
           exercise.equipment == selectedEquipment;
 
-      final matchesMuscle = selectedMuscle == 'All' ||
-          exercise.muscle == selectedMuscle;
+      final matchesMuscle =
+          selectedMuscle == 'All' || exercise.muscle == selectedMuscle;
+
       return matchesSearch && matchesDifficulty && matchesEquipment && matchesMuscle;
     }).toList();
   }
@@ -117,12 +119,17 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                     items: const [
                       DropdownMenuItem(value: 'All', child: Text('All')),
                       DropdownMenuItem(
-                          value: 'Beginner', child: Text('Beginner')),
+                        value: 'Beginner',
+                        child: Text('Beginner'),
+                      ),
                       DropdownMenuItem(
-                          value: 'Intermediate',
-                          child: Text('Intermediate')),
+                        value: 'Intermediate',
+                        child: Text('Intermediate'),
+                      ),
                       DropdownMenuItem(
-                          value: 'Advanced', child: Text('Advanced')),
+                        value: 'Advanced',
+                        child: Text('Advanced'),
+                      ),
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -131,9 +138,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     value: selectedEquipment,
@@ -146,11 +151,17 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                     items: const [
                       DropdownMenuItem(value: 'All', child: Text('All')),
                       DropdownMenuItem(
-                          value: 'Bodyweight', child: Text('Bodyweight')),
+                        value: 'Bodyweight',
+                        child: Text('Bodyweight'),
+                      ),
                       DropdownMenuItem(
-                          value: 'Dumbbells', child: Text('Dumbbells')),
+                        value: 'Dumbbells',
+                        child: Text('Dumbbells'),
+                      ),
                       DropdownMenuItem(
-                          value: 'Barbell', child: Text('Barbell')),
+                        value: 'Barbell',
+                        child: Text('Barbell'),
+                      ),
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -192,92 +203,99 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
 
             // Exercise list
             Expanded(
-              child: filteredExercises.isEmpty
+              child: isLoading
                   ? const Center(
-                      child: Text(
-                        'No exercises found.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: CircularProgressIndicator(),
                     )
-                  : ListView.builder(
-                      itemCount: filteredExercises.length,
-                      itemBuilder: (context, index) {
-                        final exercise = filteredExercises[index];
-
-                        return Card(
-                          elevation: 3,
-                          margin: const EdgeInsets.only(bottom: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                  : filteredExercises.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No exercises found.',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(16),
-                            leading: const CircleAvatar(
-                              child: Icon(Icons.fitness_center),
-                            ),
-                            title: Text(
-                              exercise.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: [
-                                  Text('Muscle: ${exercise.muscle}'),
-                                  Text('Equipment: ${exercise.equipment}'),
+                        )
+                      : ListView.builder(
+                          itemCount: filteredExercises.length,
+                          itemBuilder: (context, index) {
+                            final exercise = filteredExercises[index];
 
-                                  const SizedBox(height: 6),
-
-                                  // Colored difficulty badge
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: _difficultyColor(
-                                              exercise.difficulty)
-                                          .withOpacity(0.2),
-                                      borderRadius:
-                                          BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      exercise.difficulty,
-                                      style: TextStyle(
-                                        color: _difficultyColor(
-                                            exercise.difficulty),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            return Card(
+                              elevation: 3,
+                              margin: const EdgeInsets.only(bottom: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
                               ),
-                            ),
-                            trailing:
-                                const Icon(Icons.arrow_forward_ios),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ExerciseDetailScreen(
-                                    name: exercise.name,
-                                    muscle: exercise.muscle,
-                                    difficulty: exercise.difficulty,
-                                    equipment: exercise.equipment,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(16),
+                                leading: const CircleAvatar(
+                                  child: Icon(Icons.fitness_center),
+                                ),
+                                title: Text(
+                                  exercise.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Muscle: ${exercise.muscle}'),
+                                      Text('Equipment: ${exercise.equipment}'),
+                                      const SizedBox(height: 6),
+
+                                      // Colored difficulty badge
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 4,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: _difficultyColor(
+                                            exercise.difficulty,
+                                          ).withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Text(
+                                          exercise.difficulty,
+                                          style: TextStyle(
+                                            color: _difficultyColor(
+                                              exercise.difficulty,
+                                            ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                trailing:
+                                    const Icon(Icons.arrow_forward_ios),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ExerciseDetailScreen(
+                                        name: exercise.name,
+                                        muscle: exercise.muscle,
+                                        difficulty: exercise.difficulty,
+                                        equipment: exercise.equipment,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
             ),
           ],
         ),
