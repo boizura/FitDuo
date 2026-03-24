@@ -1,70 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:fitduo/models/exercise.dart';
+import 'package:fitduo/repositories/exercises_repo.dart';
 import 'package:fitduo/screens/exercise_detail_screen.dart';
 
 class ExerciseLibraryScreen extends StatefulWidget {
   const ExerciseLibraryScreen({super.key});
 
   @override
-  State<ExerciseLibraryScreen> createState() =>
-      _ExerciseLibraryScreenState();
+  State<ExerciseLibraryScreen> createState() => _ExerciseLibraryScreenState();
 }
 
 class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ExercisesRepo _repo = ExercisesRepo();
+
+  List<Exercise> exercises = [];
+  bool isLoading = true;
 
   String searchText = '';
   String selectedDifficulty = 'All';
   String selectedEquipment = 'All';
   String selectedMuscle = 'All';
 
-  final List<Map<String, String>> exercises = [
-    {
-      'name': 'Push-Up',
-      'muscle': 'Chest',
-      'difficulty': 'Beginner',
-      'equipment': 'Bodyweight',
-    },
-    {
-      'name': 'Squat',
-      'muscle': 'Legs',
-      'difficulty': 'Beginner',
-      'equipment': 'Bodyweight',
-    },
-    {
-      'name': 'Plank',
-      'muscle': 'Core',
-      'difficulty': 'Beginner',
-      'equipment': 'Bodyweight',
-    },
-    {
-      'name': 'Dumbbell Curl',
-      'muscle': 'Arms',
-      'difficulty': 'Intermediate',
-      'equipment': 'Dumbbells',
-    },
-    {
-      'name': 'Deadlift',
-      'muscle': 'Back',
-      'difficulty': 'Advanced',
-      'equipment': 'Barbell',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadExercises();
+  }
+
+  Future<void> _loadExercises() async {
+    final data = await _repo.getExercises();
+    setState(() {
+      exercises = data;
+      isLoading = false;
+    });
+  }
 
   // Filtering logic (search, difficulty, equipment and muscle group)
-  List<Map<String, String>> get filteredExercises {
+  List<Exercise> get filteredExercises {
     return exercises.where((exercise) {
-      final matchesSearch = exercise['name']!
-          .toLowerCase()
-          .contains(searchText.toLowerCase());
+      final matchesSearch = exercise.name.toLowerCase().contains(searchText.toLowerCase());
 
       final matchesDifficulty = selectedDifficulty == 'All' ||
-          exercise['difficulty'] == selectedDifficulty;
+          exercise.difficulty == selectedDifficulty;
 
       final matchesEquipment = selectedEquipment == 'All' ||
-          exercise['equipment'] == selectedEquipment;
+          exercise.equipment == selectedEquipment;
 
       final matchesMuscle = selectedMuscle == 'All' ||
-          exercise['muscle'] == selectedMuscle;
+          exercise.muscle == selectedMuscle;
       return matchesSearch && matchesDifficulty && matchesEquipment && matchesMuscle;
     }).toList();
   }
@@ -235,7 +219,7 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                               child: Icon(Icons.fitness_center),
                             ),
                             title: Text(
-                              exercise['name']!,
+                              exercise.name,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -247,9 +231,8 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                                 crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                 children: [
-                                  Text('Muscle: ${exercise['muscle']}'),
-                                  Text(
-                                      'Equipment: ${exercise['equipment']}'),
+                                  Text('Muscle: ${exercise.muscle}'),
+                                  Text('Equipment: ${exercise.equipment}'),
 
                                   const SizedBox(height: 6),
 
@@ -259,16 +242,16 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                                         horizontal: 10, vertical: 4),
                                     decoration: BoxDecoration(
                                       color: _difficultyColor(
-                                              exercise['difficulty']!)
+                                              exercise.difficulty)
                                           .withOpacity(0.2),
                                       borderRadius:
                                           BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      exercise['difficulty']!,
+                                      exercise.difficulty,
                                       style: TextStyle(
                                         color: _difficultyColor(
-                                            exercise['difficulty']!),
+                                            exercise.difficulty),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -283,10 +266,10 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ExerciseDetailScreen(
-                                    name: exercise['name']!,
-                                    muscle: exercise['muscle']!,
-                                    difficulty: exercise['difficulty']!,
-                                    equipment: exercise['equipment']!,
+                                    name: exercise.name,
+                                    muscle: exercise.muscle,
+                                    difficulty: exercise.difficulty,
+                                    equipment: exercise.equipment,
                                   ),
                                 ),
                               );

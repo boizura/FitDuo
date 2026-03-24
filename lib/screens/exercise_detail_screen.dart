@@ -14,7 +14,7 @@ class ExerciseDetailScreen extends StatelessWidget {
     required this.equipment,
   });
 
-  // Colors for difficulty levela
+  // Colors for difficulty levels
   Color _difficultyColor(String difficulty) {
     switch (difficulty) {
       case 'Beginner':
