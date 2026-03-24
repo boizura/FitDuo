@@ -6,7 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize database and seed data
-  await DatabaseHelper.instance.seedExercises();
+  //await DatabaseHelper.instance.seedExercises();
 
   runApp(const FitnessApp());
 }

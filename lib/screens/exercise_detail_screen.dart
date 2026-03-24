@@ -5,6 +5,8 @@ class ExerciseDetailScreen extends StatelessWidget {
   final String muscle;
   final String difficulty;
   final String equipment;
+  final String instructions;
+  final String tips;
 
   const ExerciseDetailScreen({
     super.key,
@@ -12,6 +14,8 @@ class ExerciseDetailScreen extends StatelessWidget {
     required this.muscle,
     required this.difficulty,
     required this.equipment,
+    required this.instructions,
+    required this.tips,
   });
 
   // Colors for difficulty levels
@@ -57,7 +61,7 @@ class ExerciseDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Exercise Header
+            // Exercise Header (icon and name)
             Row(
               children: [
                 CircleAvatar(
@@ -80,11 +84,11 @@ class ExerciseDetailScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Info Card
-            Card(
-              elevation: 3,
+            Card(              
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
+              elevation: 3,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -94,21 +98,20 @@ class ExerciseDetailScreen extends StatelessWidget {
                       'Muscle Group: $muscle',
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
 
                     Text(
                       'Equipment: $equipment',
                       style: const TextStyle(fontSize: 18),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
 
                     // Difficulty badge
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color:
-                            _difficultyColor(difficulty).withOpacity(0.2),
+                        color: _difficultyColor(difficulty).withOpacity(0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -125,11 +128,11 @@ class ExerciseDetailScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
-            // Description
+            // Instruction
             const Text(
-              'Description',
+              'Instruction',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -137,13 +140,12 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            const Text(
-              'This exercise helps improve strength and endurance. '
-              'Focus on maintaining proper form throughout the movement. ',
+            Text(
+              instructions,
               style: TextStyle(fontSize: 16),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
 
             // Tips Section
             const Text(
@@ -155,9 +157,8 @@ class ExerciseDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            const Text(
-              '• Keep your core engaged\n'
-              '• Maintain steady breathing\n',
+            Text(
+              tips,
               style: TextStyle(fontSize: 16),
             ),
 

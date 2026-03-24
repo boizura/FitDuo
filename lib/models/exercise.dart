@@ -4,6 +4,8 @@ class Exercise {
   final String muscle;
   final String difficulty;
   final String equipment;
+  final String instructions;
+  final String tips;
 
   Exercise({
     this.id,
@@ -11,6 +13,8 @@ class Exercise {
     required this.muscle,
     required this.difficulty,
     required this.equipment,
+    required this.instructions,
+    required this.tips,    
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +24,8 @@ class Exercise {
       'muscle': muscle,
       'difficulty': difficulty,
       'equipment': equipment,
+      'instructions': instructions,
+      'tips': tips,
     };
   }
 
@@ -30,6 +36,8 @@ class Exercise {
       muscle: map['muscle'],
       difficulty: map['difficulty'],
       equipment: map['equipment'],
+      instructions: map['instructions'],
+      tips: map['tips'],
     );
   }
 }
