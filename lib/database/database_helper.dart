@@ -32,7 +32,9 @@ class DatabaseHelper {
         name TEXT NOT NULL,
         muscle TEXT NOT NULL,
         difficulty TEXT NOT NULL,
-        equipment TEXT NOT NULL
+        equipment TEXT NOT NULL,
+        instructions TEXT,
+        tips TEXT
       )
     ''');
   }
@@ -64,9 +66,9 @@ class DatabaseHelper {
         'difficulty': 'Beginner',
         'equipment': 'Bodyweight',
         'instructions':
-            'Start in a plank position with your hands slightly wider than shoulder-width apart. Lower your body until your chest is close to the floor, then push back up to the starting position.',
+        'Start in a plank position with your hands slightly wider than shoulder-width apart. Lower your body until your chest is close to the floor, then push back up to the starting position.',
         'tips':
-            'Keep your body in a straight line. Do not let your hips sag. Breathe out as you push upward.',
+        'Keep your body in a straight line. Do not let your hips sag. Breathe out as you push upward.',
       },
       {
         'name': 'Squat',
@@ -74,9 +76,9 @@ class DatabaseHelper {
         'difficulty': 'Beginner',
         'equipment': 'Bodyweight',
         'instructions':
-            'Stand with your feet shoulder-width apart. Bend your knees and push your hips back as if sitting in a chair. Lower until your thighs are parallel to the ground, then stand back up.',
+        'Stand with your feet shoulder-width apart. Bend your knees and push your hips back as if sitting in a chair. Lower until your thighs are parallel to the ground, then stand back up.',
         'tips':
-            'Keep your chest up and knees aligned with your toes. Press through your heels when standing.',
+        'Keep your chest up and knees aligned with your toes. Press through your heels when standing.',
       },
       {
         'name': 'Plank',
@@ -84,9 +86,9 @@ class DatabaseHelper {
         'difficulty': 'Beginner',
         'equipment': 'Bodyweight',
         'instructions':
-            'Place your forearms on the floor and extend your legs behind you. Keep your body in a straight line from head to heels and hold the position.',
+        'Place your forearms on the floor and extend your legs behind you. Keep your body in a straight line from head to heels and hold the position.',
         'tips':
-            'Tighten your core and glutes. Do not let your lower back sink. Keep your neck neutral.',
+        'Tighten your core and glutes. Do not let your lower back sink. Keep your neck neutral.',
       },
       {
         'name': 'Dumbbell Curl',
@@ -94,10 +96,9 @@ class DatabaseHelper {
         'difficulty': 'Intermediate',
         'equipment': 'Dumbbells',
         'instructions':
-            'Hold a dumbbell in each hand with your arms at your sides. Curl the weights upward toward your shoulders, then lower them slowly.',
+        'Hold a dumbbell in each hand with your arms at your sides. Curl the weights upward toward your shoulders, then lower them slowly.',
         'tips':
-            'Keep your elbows close to your body. Avoid swinging the weights. Control the lowering phase.',
-
+        'Keep your elbows close to your body. Avoid swinging the weights. Control the lowering phase.',
       },
       {
         'name': 'Deadlift',
@@ -105,9 +106,9 @@ class DatabaseHelper {
         'difficulty': 'Advanced',
         'equipment': 'Barbell',
         'instructions':
-            'Stand with your feet hip-width apart under the barbell. Bend at your hips and knees to grip the bar. Lift by extending your hips and knees until standing tall, then lower the bar with control.',
+        'Stand with your feet hip-width apart under the barbell. Bend at your hips and knees to grip the bar. Lift by extending your hips and knees until standing tall, then lower the bar with control.',
         'tips':
-            'Keep your back flat and chest up. Drive through your heels. Do not round your lower back.',
+        'Keep your back flat and chest up. Drive through your heels. Do not round your lower back.',
       },
     ];
 
