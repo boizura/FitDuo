@@ -1,7 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:fitduo/models/quest.dart';
+import 'package:fitduo/repositories/quest_repo.dart';
 
 class ProgressTrackerScreen extends StatelessWidget {
   const ProgressTrackerScreen({super.key});
+
+  @override
+  State<ProgressTrackerScreen> createState() => _ProgressTrackerScreenState();
+  }
+
+class _ProgressTrackerScreenState extends State<ProgressTrackerScreen> {
+  final QuestRepo _questRepo = QuestRepo();
+
+  List<Quest> quests = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadQuests();
+  }
+
+  Future<void> _loadQuests() async {
+    final data = await _questRepo.getQuests();
+    setState(() {
+      quests = data;
+      isLoading = false;
+    });
+  }
+
+  Color _difficultyColor(String difficulty) {
+    switch (difficulty) {
+      case 'Beginner':
+        return Colors.green;
+      case 'Intermediate':
+        return Colors.orange;
+      case 'Advanced':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  double _fakeProgress(String difficulty) {
+    switch (difficulty) {
+      case 'Beginner':
+        return 0.3;
+      case 'Intermediate':
+        return 0.6;
+      case 'Advanced':
+        return 0.85;
+      default:
+        return 0.0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
