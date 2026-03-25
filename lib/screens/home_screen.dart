@@ -78,7 +78,14 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                     );                   
                   }),
-                  _buildButton("🎯 Create Quest", Colors.green, () {}),
+                  _buildButton("🎯 Create Quest", Colors.green, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const QuestScreen(),
+                      ),
+                    );
+                  }),
                   _buildButton("📈 Progress", Colors.orange, () {}),
                   _buildButton("🤖 AI Trainer", Colors.purple, () {}),
                 ],
