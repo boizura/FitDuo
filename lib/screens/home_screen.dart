@@ -86,7 +86,15 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                     );
                   }),
-                  _buildButton("📈 Progress", Colors.orange, () {}),
+                  _buildButton("📈 Progress", Colors.orange, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProgressTrackerScreen(),
+                      ),
+                    );
+                  }),
+                  
                   _buildButton("🤖 AI Trainer", Colors.purple, () {}),
                 ],
               ),
