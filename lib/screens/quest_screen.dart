@@ -55,7 +55,6 @@ class _QuestScreenState extends State<QuestScreen> {
         content: Text('Quest created successfully!'),
       ),
     );
-    Navigator.pop(context);
     
     _titleController.clear();
     _goalController.clear();
@@ -66,6 +65,8 @@ class _QuestScreenState extends State<QuestScreen> {
       selectedDifficulty = 'Beginner';
       isSaving = false;
     });
+
+    Navigator.pop(context);
   }
 
   Color _difficultyColor(String difficulty) {
