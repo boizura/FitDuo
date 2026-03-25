@@ -19,12 +19,13 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
     );
   }
 
+  // Database for exercises
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE exercises (
@@ -37,8 +38,21 @@ class DatabaseHelper {
         tips TEXT
       )
     ''');
-  }
 
+    // Database for quests
+    await db.execute('''
+    CREATE TABLE quests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      goal TEXT NOT NULL,
+      reward TEXT NOT NULL,
+      difficulty TEXT NOT NULL
+    )
+  ''');
+  }
+    
+  // Handle database upgrades
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute(
@@ -47,6 +61,19 @@ class DatabaseHelper {
       await db.execute(
         "ALTER TABLE exercises ADD COLUMN tips TEXT NOT NULL DEFAULT ''",
       );
+    }
+
+    if (oldVersion < 3) {
+      await db.execute('''
+        CREATE TABLE quests (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          description TEXT NOT NULL,
+          goal TEXT NOT NULL,
+          reward TEXT NOT NULL,
+          difficulty TEXT NOT NULL
+        )
+      ''');
     }
   }
 
@@ -120,5 +147,15 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getAllExercises() async {
     final db = await database;
     return await db.query('exercises', orderBy: 'name ASC');
+  }
+
+  Future<int> insertQuest(Map<String, dynamic> quest) async {
+    final db = await database;
+    return await db.insert('quests', quest);
+  }
+
+  Future<List<Map<String, dynamic>>> getAllQuests() async {
+    final db = await database;
+    return await db.query('quests', orderBy: 'id DESC');
   }
 }

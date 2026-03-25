@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fitduo/models/quest.dart';
+import 'package:fitduo/repositories/quest_repo.dart';
 
 class QuestScreen extends StatefulWidget {
   const QuestScreen({super.key});
@@ -15,7 +17,10 @@ class _QuestScreenState extends State<QuestScreen> {
   final TextEditingController _rewardController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
+  final QuestRepo _questRepo = QuestRepo();
+
   String selectedDifficulty = 'Beginner';
+  bool isSaving = false;
 
   @override
   void dispose() {
@@ -26,23 +31,41 @@ class _QuestScreenState extends State<QuestScreen> {
     super.dispose();
   }
 
-  void _saveQuest() {
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Quest created successfully!'),
-        ),
-      );
+  Future<void> _saveQuest() async {
+    if (!_formKey.currentState!.validate()) return; 
+    
+    setState(() {
+      isSaving = true;
+    });
 
-      _titleController.clear();
-      _goalController.clear();
-      _rewardController.clear();
-      _descriptionController.clear();
+    final quest = Quest(
+      title: _titleController.text.trim(),
+      description: _descriptionController.text.trim(),
+      goal: _goalController.text.trim(),
+      reward: _rewardController.text.trim(),
+      difficulty: selectedDifficulty,
+    );
 
-      setState(() {
-        selectedDifficulty = 'Beginner';
-      });
-    }
+    await _questRepo.addQuest(quest);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Quest created successfully!'),
+      ),
+    );
+    Navigator.pop(context);
+    
+    _titleController.clear();
+    _goalController.clear();
+    _rewardController.clear();
+    _descriptionController.clear();
+
+    setState(() {
+      selectedDifficulty = 'Beginner';
+      isSaving = false;
+    });
   }
 
   Color _difficultyColor(String difficulty) {
@@ -222,12 +245,12 @@ class _QuestScreenState extends State<QuestScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _saveQuest,
+                  onPressed: isSaving ? null : _saveQuest,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text(
-                    'Create Quest',
+                  child: Text(
+                    isSaving ? 'Saving...' : 'Create Quest',
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
